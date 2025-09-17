@@ -89,3 +89,96 @@ Para configurar e executar este projeto, siga as instruções abaixo:
 Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
 
 
+
+
+## Funcionalidades
+
+*   **Coleta de Dados Automatizada**: Extrai os melhores tempos diários de speedruns diretamente da API do speedrun.com.
+*   **Processamento de Dados**: Organiza os dados coletados, identificando jogadores únicos e seus melhores tempos por dia.
+*   **Exportação para CSV/TSV**: Salva os dados processados em um arquivo CSV ou TSV (`data.csv` ou `data.tsv`) para fácil acesso e análise.
+*   **Visualização Dinâmica**: Gera animações interativas que mostram a progressão dos tempos e rankings dos jogadores ao longo do tempo.
+*   **Suporte a Múltiplas Plataformas**: O script Python é compatível com diferentes sistemas operacionais, e o projeto Processing pode ser executado em ambientes que suportam Java.
+
+
+
+
+## Como Começar
+
+Para configurar e executar este projeto, siga as instruções abaixo:
+
+### Pré-requisitos
+
+*   **Python 3.x**: Necessário para executar o script de coleta de dados. Recomenda-se usar um ambiente virtual (`venv` ou `conda`).
+*   **Processing**: Necessário para executar o projeto de visualização. Baixe-o em [processing.org](https://processing.org/download/).
+*   **Git**: Para clonar o repositório.
+
+### Instalação
+
+1.  Clone este repositório para sua máquina local:
+    ```bash
+    git clone https://github.com/gustavobergz/SpeedrunDataCollector.git
+    cd SpeedrunDataCollector
+    ```
+2.  (Opcional) Crie e ative um ambiente virtual para as dependências Python:
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate  # No Linux/macOS
+    # venv\Scripts\activate  # No Windows
+    ```
+3.  Instale as dependências Python:
+    ```bash
+    pip install requests tqdm
+    ```
+
+### Configuração do Projeto Processing
+
+1.  Abra o IDE do Processing.
+2.  Vá em `File > Open...` e selecione o arquivo `DataVisualization.pde` dentro da pasta `DataVisualization` do projeto clonado.
+3.  Certifique-se de que os arquivos `Person.pde`, `data.tsv` e `Jygquif1-96.vlw` (fonte utilizada) estejam na mesma pasta do `DataVisualization.pde`.
+4.  O projeto Processing utiliza a biblioteca `VideoExport` (com.hamoid). Se você não a tiver instalada, vá em `Sketch > Import Library > Add Library...` e procure por `VideoExport` para instalá-la. Certifique-se de que o FFmpeg esteja configurado corretamente, conforme as instruções da biblioteca VideoExport.
+
+
+
+
+## Uso
+
+### Coletando Dados (Python)
+
+1.  Edite o arquivo `gerar_csv_speedrun.py` para configurar as variáveis `GAME_ID`, `CATEGORY_ID`, `VAR_PLATFORM`, `VAR_PLATFORM_VALUE`, `VAR_HOVERBOARD` e `VAR_HOVERBOARD_VALUE` de acordo com o jogo e categoria de speedrun que você deseja analisar. Você pode encontrar esses IDs na URL do speedrun.com ou consultando a documentação da API do speedrun.com.
+    *   **`GAME_ID`**: O ID único do jogo no speedrun.com.
+    *   **`CATEGORY_ID`**: O ID único da categoria de speedrun dentro do jogo.
+    *   **`VAR_PLATFORM`** e **`VAR_PLATFORM_VALUE`**: IDs para filtrar por plataforma (ex: "Web").
+    *   **`VAR_HOVERBOARD`** e **`VAR_HOVERBOARD_VALUE`**: IDs para filtrar por uma variável específica do jogo (ex: "No Hoverboard").
+
+2.  Execute o script Python a partir do terminal:
+    ```bash
+    python gerar_csv_speedrun.py
+    ```
+    Este comando irá gerar um arquivo `data.tsv` (ou `data.csv`, dependendo da configuração no script) na raiz do projeto com os dados coletados. O script inclui uma barra de progresso (`tqdm`) para acompanhar a coleta de dados diária.
+
+### Visualizando Dados (Processing)
+
+1.  Certifique-se de que o arquivo `data.tsv` (gerado pelo script Python) esteja presente na pasta `DataVisualization` do seu projeto Processing. Se o script Python gerou `data.csv`, você precisará renomeá-lo para `data.tsv` ou ajustar o código Processing para ler `.csv`.
+2.  Abra o `DataVisualization.pde` no Processing IDE.
+3.  Clique no botão 'Run' (o ícone de triângulo ▶) para iniciar a visualização. O sketch irá gerar um vídeo (`VideoTeste.mp4`) na pasta `DataVisualization` mostrando a evolução dos rankings dos jogadores ao longo do tempo.
+
+
+
+
+## Tecnologias Utilizadas
+
+*   **Python 3.x**: Linguagem de programação utilizada para a coleta e processamento de dados.
+*   **Processing**: Ambiente de desenvolvimento e linguagem para a criação de visualizações dinâmicas e geração de vídeo.
+*   **Requests**: Biblioteca Python para realizar requisições HTTP à API do speedrun.com de forma eficiente.
+*   **tqdm**: Biblioteca Python para exibir barras de progresso informativas durante a execução do script de coleta de dados.
+*   **VideoExport (Processing Library)**: Biblioteca essencial do Processing para exportar as visualizações animadas como arquivos de vídeo (MP4).
+*   **FFmpeg**: Ferramenta externa de código aberto utilizada pela biblioteca VideoExport para codificação e manipulação de vídeo.
+
+
+
+
+## Licença
+
+Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
+
+
